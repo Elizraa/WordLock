@@ -4,34 +4,33 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public Transform target;
+    //public Transform target;
     public float moveSpeed, delayMove, damageWeapon;
     public Rigidbody2D rb;
 
     void Start()
     {
-        FaceTarget();
+        //FaceTarget();
         StartCoroutine(GoAttack());
     }
 
-    void FaceTarget()
-    {
-        Vector3 targ = target.position;
-        targ.z = 0f;
+    //void FaceTarget()
+    //{
+    //    Vector3 targ = target.position;
+    //    targ.z = 0f;
 
-        Vector3 objectPos = transform.position;
-        targ.x = targ.x - objectPos.x;
-        targ.y = targ.y - objectPos.y;
+    //    Vector3 objectPos = transform.position;
+    //    targ.x = targ.x - objectPos.x;
+    //    targ.y = targ.y - objectPos.y;
 
-        float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
-    }
+    //    float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
+    //    transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+    //}
 
     IEnumerator GoAttack()
     {
         yield return new WaitForSeconds(delayMove);
         rb.velocity = moveSpeed * transform.up;
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
