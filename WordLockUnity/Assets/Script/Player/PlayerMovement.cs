@@ -141,9 +141,9 @@ public class PlayerMovement : MonoBehaviour
             currentEnergy = Mathf.Lerp(startValue, dashEnergy, time / restoreTimeDash);
             time += Time.deltaTime;
             yield return null;
-            PlayerUI.playerUI.UpdateEnergy(currentEnergy);
+            //PlayerUI.playerUI.UpdateEnergy(currentEnergy);
         }
         currentEnergy = dashEnergy;
-        PlayerUI.playerUI.UpdateEnergy(currentEnergy);
+        //PlayerUI.playerUI.UpdateEnergy(currentEnergy);
     }
 }

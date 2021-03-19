@@ -22,8 +22,15 @@ public class DialogueManager : MonoBehaviour
 	{
 		sentences = new Queue<Sentences>();
 	}
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && LevelManager.levelManager.sceneState == GameState.SceneState.Talking)
+        {
+			DisplayNextSentence();
+        }
 
-	public void StartDialogue(Dialogue dialogue)
+	}
+    public void StartDialogue(Dialogue dialogue)
 	{
 		animator.SetBool("IsOpen", true);
 
