@@ -11,10 +11,9 @@ public class PlayerMovement : MonoBehaviour
     public PlayerControl playerControl;
     Vector2 movement;
 
-    public float dashSpeed, startDashTime, dashEnergy, restoreTimeDash;
-    private float dashTime, currentEnergy;
-    private int directionDash;
-
+    public float dashSpeed, startDashTime, restoreTimeDash, durationMove;
+    public Transform positionToMoveTo;
+    private float dashTime, currentEnergy, dashEnergy = 20;
 
     public Transform boss;
 
@@ -27,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     int playerDir;
+    public int playerDirEnter;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         playerDir = (int) DirPlayer.up;
         currentEnergy = dashEnergy;
         dashTime = startDashTime;
+        StartCoroutine(LerpPosition(positionToMoveTo.position, durationMove));
     }
 
     // Update is called once per frame
@@ -56,29 +57,15 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetButton("Jump") && currentEnergy >= dashEnergy)
                 Dash();
-            if (currentEnergy < dashEnergy)
-            {
-                if (dashTime <= 0)
-                {
-                    dashTime = startDashTime;
-                    moveSpeed = 5;
-                    playerControl.invul = false;
-                }
-                else
-                    dashTime -= Time.deltaTime;
-                currentEnergy += (Time.fixedDeltaTime/restoreTimeDash);
-                if (currentEnergy > dashEnergy)
-                    currentEnergy = dashEnergy;
-                //Debug.Log(currentEnergy);
-                //PlayerUI.playerUI.UpdateEnergy(currentEnergy);
-            }
         }
     }
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-        //Debug.Log(playerDir);
+        if(LevelManager.levelManager.sceneState != SceneState.Talking)
+        {
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 
     int Direction()
@@ -116,6 +103,47 @@ public class PlayerMovement : MonoBehaviour
         moveSpeed += dashSpeed;
         playerControl.invul = true;
         currentEnergy = 0;
+        StartCoroutine(LerpDashEnergy());
         //Debug.Log("Dashing");
+    }
+
+    IEnumerator LerpPosition(Vector3 targetPosition, float duration)
+    {
+        anim.SetFloat("Direction", playerDirEnter);
+        anim.SetBool("Walking", true);
+
+        float time = 0;
+        Vector2 startPosition = transform.position;
+        while (time < duration)
+        {
+            transform.position = Vector2.Lerp(startPosition, targetPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        LevelManager.levelManager.StartTalking(0);
+        anim.SetBool("Walking", false);
+        transform.position = targetPosition;
+    }
+
+    IEnumerator LerpDashEnergy()
+    {
+        float time = 0, startValue = 0;
+        while (time < restoreTimeDash)
+        {
+            if (dashTime <= 0)
+            {
+                dashTime = startDashTime;
+                moveSpeed = 5;
+                playerControl.invul = false;
+            }
+            else
+                dashTime -= Time.deltaTime;
+            currentEnergy = Mathf.Lerp(startValue, dashEnergy, time / restoreTimeDash);
+            time += Time.deltaTime;
+            yield return null;
+            PlayerUI.playerUI.UpdateEnergy(currentEnergy);
+        }
+        currentEnergy = dashEnergy;
+        PlayerUI.playerUI.UpdateEnergy(currentEnergy);
     }
 }

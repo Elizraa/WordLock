@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
 
-	public Text nameText;
-	public Text dialogueText;
+	public Text nameText, dialogueText;
+	public Image profile;
 
 	public Animator animator;
 
@@ -49,10 +49,10 @@ public class DialogueManager : MonoBehaviour
 
 		Sentences sentence = sentences.Dequeue();
 		string kalimat = sentence.kalimat;
-		if (!(nameText.text == sentence.name))
+		if (nameText.text != sentence.name)
 		{
 			nameText.text = sentence.name;
-			//Debug.Log("a");
+			profile.sprite = sentence.profile;
 
 		}
 		StopAllCoroutines();

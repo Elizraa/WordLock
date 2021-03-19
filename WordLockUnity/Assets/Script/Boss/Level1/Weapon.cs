@@ -4,26 +4,34 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public Transform positionToMoveTo;
-    public float durationMove, delayMove, damageWeapon;
+    public Transform target;
+    public float moveSpeed, delayMove, damageWeapon;
+    public Rigidbody2D rb;
 
     void Start()
     {
-        StartCoroutine(LerpPosition(positionToMoveTo.position, durationMove));
+        FaceTarget();
+        StartCoroutine(GoAttack());
     }
 
-    IEnumerator LerpPosition(Vector3 targetPosition, float duration)
+    void FaceTarget()
     {
-        float time = 0;
-        Vector2 startPosition = transform.position;
+        Vector3 targ = target.position;
+        targ.z = 0f;
+
+        Vector3 objectPos = transform.position;
+        targ.x = targ.x - objectPos.x;
+        targ.y = targ.y - objectPos.y;
+
+        float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+    }
+
+    IEnumerator GoAttack()
+    {
         yield return new WaitForSeconds(delayMove);
-        while (time < duration)
-        {
-            transform.position = Vector2.Lerp(startPosition, targetPosition, time / duration);
-            time += Time.deltaTime;
-            yield return null;
-        }
-        transform.position = targetPosition;
+        rb.velocity = moveSpeed * transform.up;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,6 +40,8 @@ public class Weapon : MonoBehaviour
         {
             collision.GetComponent<PlayerControl>().TakeDamage(damageWeapon);
         }
+        else if (collision.name == "ObjectDestroyer")
+            Destroy(gameObject);
     }
 }
 

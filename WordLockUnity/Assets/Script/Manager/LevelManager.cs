@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static GameState;
 
 public class LevelManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager levelManager;
     public SceneState sceneState;
     public DialogueTrigger[] DialoguePhase;
+    public Animator animPlayer;
 
     private void Awake()
     {
@@ -18,7 +20,6 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         sceneState = SceneState.Talking;
-        StartTalking(0);
     }
 
     // Update is called once per frame
@@ -29,6 +30,6 @@ public class LevelManager : MonoBehaviour
 
     public void StartTalking(int index)
     {
-        DialoguePhase[0].TriggerDialogue();
+        DialoguePhase[index].TriggerDialogue();
     }
 }
