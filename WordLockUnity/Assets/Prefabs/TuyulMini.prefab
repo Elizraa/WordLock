@@ -149,5 +149,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   delayMove: 0
-  damageWeapon: 10
+  damageWeapon: 2
   rb: {fileID: 108907708160927017}

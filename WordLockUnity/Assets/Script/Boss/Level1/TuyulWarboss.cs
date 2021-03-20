@@ -12,14 +12,21 @@ public class TuyulWarboss : MonoBehaviour
     public Transform knifeDir;
     public Transform[] arrowSpawn, knifeSpawn, tuyulSpawn;
 
-    public float healthBoss, delayArrowSpawn, attackPerRound, manaRegenerationTime;
+    public float healthBoss, delayArrowSpawn, attackPerRound, durationIdle;
     public float delayAfterArrow, delayAfterKnife, delayAfterTuyul, delayAdjustHealth;
     public Animator animBoss;
+
+    [HideInInspector]
+    public bool regenerate;
+
+    public int manaPlayerGet;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(RandomAttack(manaRegenerationTime, attackPerRound));
+        StartCoroutine(RandomAttack(attackPerRound));
+        BossUI.bossUI.SetMaxHealth(healthBoss);
+        BossUI.bossUI.SetMaxMana(durationIdle);
     }
 
     // Update is called once per frame
@@ -28,7 +35,7 @@ public class TuyulWarboss : MonoBehaviour
 
     }
 
-    IEnumerator RandomAttack(float regenerateTime, float attackCount)
+    IEnumerator RandomAttack(float attackCount)
     {
         while (true)
         {
@@ -40,38 +47,42 @@ public class TuyulWarboss : MonoBehaviour
             }
             yield return new WaitForSeconds(1);
             //animBoss.SetBool("Idle", false);
-            if(attackCount <= 0)
-            {
-                regenerateTime = 0;
-                //Buka bar regenerate
-                while(regenerateTime < manaRegenerationTime)
-                {
-                    regenerateTime += Time.fixedDeltaTime;
-                    if (regenerateTime > manaRegenerationTime)
-                    {
-                        regenerateTime = manaRegenerationTime;
-                        //Tutup bar regenerate
-                    }
-                    yield return new WaitForEndOfFrame();
-                }
-                attackCount = attackPerRound;
-            }
+
             switch (Random.Range(0, AttackVariety))
             {
                 case 0:
                     StartCoroutine(ArrowAttack());
-                    yield return new WaitForSeconds(delayAfterArrow - delayAdjustHealth);
+                    yield return new WaitForSeconds(delayAfterArrow - delayAdjustHealth - (attackCount == 1 ? -2 : 0));
                     break;
                 case 1:
                     KnifeAttack();
-                    yield return new WaitForSeconds(delayAfterKnife - delayAdjustHealth);
+                    yield return new WaitForSeconds(delayAfterKnife - delayAdjustHealth - (attackCount == 1 ? -2 : 0));
                     break;
                 case 2:
                     TuyulAttack();
-                    yield return new WaitForSeconds(delayAfterTuyul - delayAdjustHealth);
+                    yield return new WaitForSeconds(delayAfterTuyul - delayAdjustHealth - (attackCount == 1 ? -2 : 0));
                     break;
             }
+            player.GetComponent<PlayerControl>().UpdateMana(-manaPlayerGet);
             attackCount--;
+            if (attackCount == 0)
+            {
+                regenerate = true;
+                LevelManager.levelManager.SetState(GameState.SceneState.SpellWrite);
+                float time = 0, endValue = 0, regenerateTime = 0;
+                while (time < durationIdle && regenerate)
+                {
+                    regenerateTime = Mathf.Lerp(durationIdle, endValue, time / durationIdle);
+                    time += Time.deltaTime;
+                    yield return null;
+                    BossUI.bossUI.UpdateMana(regenerateTime);
+                }
+                LevelManager.levelManager.SetState(GameState.SceneState.Fighting);
+                regenerateTime = endValue;
+                BossUI.bossUI.UpdateMana(regenerateTime);
+                regenerate = false;
+                attackCount = attackPerRound;
+            }
         }
     }
 
@@ -133,6 +144,12 @@ public class TuyulWarboss : MonoBehaviour
         {
             animBoss.SetBool("SpinHammer", false);
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        healthBoss -= damage;
+        BossUI.bossUI.UpdateHealth(healthBoss);
     }
 
 }
