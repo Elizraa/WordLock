@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
 	private Queue<Sentences> sentences;
 
 	public float spawnLetter;
+	bool dialogueBegin = false;
 
 	GameState.SceneState nextState;
 
@@ -24,7 +25,7 @@ public class DialogueManager : MonoBehaviour
 	}
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && LevelManager.levelManager.sceneState == GameState.SceneState.Talking)
+        if(Input.GetKeyDown(KeyCode.Space) && dialogueBegin)
         {
 			DisplayNextSentence();
         }
@@ -32,6 +33,7 @@ public class DialogueManager : MonoBehaviour
 	}
     public void StartDialogue(Dialogue dialogue)
 	{
+		dialogueBegin = true;
 		animator.SetBool("IsOpen", true);
 
 
@@ -78,8 +80,9 @@ public class DialogueManager : MonoBehaviour
 
 	void EndDialogue()
 	{
+		dialogueBegin = false;
 		animator.SetBool("IsOpen", false);
-		LevelManager.levelManager.sceneState = nextState;
+		LevelManager.levelManager.SetState(nextState);
 	}
 
 }

@@ -9,6 +9,14 @@ public class PlayerUI : MonoBehaviour
 
     public Slider health, currentEnergy;
 
+    public Text healthLeft, manaLeft;
+
+    private void Awake()
+    {
+        if (playerUI == null)
+            playerUI = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,11 +33,13 @@ public class PlayerUI : MonoBehaviour
     {
         health.maxValue = maxHealth;
         health.value = maxHealth;
+        healthLeft.text = maxHealth + " / " + maxHealth;
     }
 
     public void UpdateHealth(float currentHealth)
     {
         health.value = currentHealth;
+        healthLeft.text = currentHealth + " / " + health.maxValue;
         //if 0 gameOver
     }
 
@@ -42,5 +52,15 @@ public class PlayerUI : MonoBehaviour
     public void UpdateEnergy(float energy)
     {
         currentEnergy.value = energy;
+    }
+
+    public void SetMaxMana(int maxMana)
+    {
+        manaLeft.text = "Mana : " + maxMana + " / " + maxMana;
+    }
+
+    public void UpdateMana(int mana, int maxMana)
+    {
+        manaLeft.text = mana + " / " + maxMana;
     }
 }

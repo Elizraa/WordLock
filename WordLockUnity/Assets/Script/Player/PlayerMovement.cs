@@ -11,13 +11,12 @@ public class PlayerMovement : MonoBehaviour
     public PlayerControl playerControl;
     Vector2 movement;
 
-    public float dashSpeed, startDashTime, restoreTimeDash, durationMove;
-    public Transform positionToMoveTo;
+    public float dashSpeed, startDashTime, restoreTimeDash;
     private float dashTime, currentEnergy, dashEnergy = 20;
 
     public Transform boss;
 
-    enum DirPlayer
+    public enum DirPlayer
     {
         up = 0,
         down = 1,
@@ -26,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     int playerDir;
-    public int playerDirEnter;
 
     // Start is called before the first frame update
     void Start()
@@ -34,13 +32,13 @@ public class PlayerMovement : MonoBehaviour
         playerDir = (int) DirPlayer.up;
         currentEnergy = dashEnergy;
         dashTime = startDashTime;
-        StartCoroutine(LerpPosition(positionToMoveTo.position, durationMove));
+        PlayerUI.playerUI.SetMaxEnergy(dashEnergy);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(LevelManager.levelManager.sceneState != SceneState.Talking)
+        if(LevelManager.levelManager.sceneState != SceneState.Talking && LevelManager.levelManager.sceneState != SceneState.SpellWrite)
         {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
@@ -62,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(LevelManager.levelManager.sceneState != SceneState.Talking)
+        if(LevelManager.levelManager.sceneState != SceneState.Talking && LevelManager.levelManager.sceneState != SceneState.SpellWrite)
         {
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         }
@@ -107,9 +105,10 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("Dashing");
     }
 
-    IEnumerator LerpPosition(Vector3 targetPosition, float duration)
+    public IEnumerator LerpPosition(Vector3 targetPosition, float duration, int direction)
     {
-        anim.SetFloat("Direction", playerDirEnter);
+        LevelManager.levelManager.SetState(SceneState.Talking);
+        anim.SetFloat("Direction", direction);
         anim.SetBool("Walking", true);
 
         float time = 0;
@@ -134,16 +133,21 @@ public class PlayerMovement : MonoBehaviour
             {
                 dashTime = startDashTime;
                 moveSpeed = 5;
-                playerControl.invul = false;
+                Invoke("InvulOn", 0.5f);
             }
             else
                 dashTime -= Time.deltaTime;
             currentEnergy = Mathf.Lerp(startValue, dashEnergy, time / restoreTimeDash);
             time += Time.deltaTime;
             yield return null;
-            //PlayerUI.playerUI.UpdateEnergy(currentEnergy);
+            PlayerUI.playerUI.UpdateEnergy(currentEnergy);
         }
         currentEnergy = dashEnergy;
-        //PlayerUI.playerUI.UpdateEnergy(currentEnergy);
+        PlayerUI.playerUI.UpdateEnergy(currentEnergy);
+    }
+
+    void InvulOn()
+    {
+        playerControl.invul = false;
     }
 }

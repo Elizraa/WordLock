@@ -1143,7 +1143,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 1845476597}
   dialogueText: {fileID: 1693065541}
+  profile: {fileID: 0}
   animator: {fileID: 1741239113}
+  spawnLetter: 0
 --- !u!4 &1228552699
 Transform:
   m_ObjectHideFlags: 0
@@ -1497,11 +1499,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-    name: Dwayne Johnson
+    stateAfterThis: 0
     sentences:
-    - Hey there! My name is Dwayne...
-    - I'm here to guide you through your dangerous adventures...
-    - And wake you up in the morning of course!
+    - name: 
+      profile: {fileID: 0}
+      kalimat: 
+    - name: 
+      profile: {fileID: 0}
+      kalimat: 
+    - name: 
+      profile: {fileID: 0}
+      kalimat: 
+  dialogueManager: {fileID: 0}
 --- !u!1 &1845476595
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,10 +7,14 @@ public class Weapon : MonoBehaviour
     //public Transform target;
     public float moveSpeed, delayMove, damageWeapon;
     public Rigidbody2D rb;
+    public ParticleSystem particle;
+    public Animator anim;
 
+    int tuyulMiniWallCounter = 0;
     void Start()
     {
         //FaceTarget();
+        if (anim != null) anim.Play("SpawnWeapon");
         StartCoroutine(GoAttack());
     }
 
@@ -39,8 +43,28 @@ public class Weapon : MonoBehaviour
         {
             collision.GetComponent<PlayerControl>().TakeDamage(damageWeapon);
         }
-        else if (collision.name == "ObjectDestroyer")
+        else if (collision.CompareTag("Wall"))
+            StartCoroutine(WallCollision());
+    }
+
+    IEnumerator WallCollision()
+    {
+        if(gameObject.name == "TuyulMini(Clone)")
+        {
+            if(tuyulMiniWallCounter++ == 0)
+            {
+                yield break;
+            }
+            yield return new WaitForSeconds(0.5f);
             Destroy(gameObject);
+            yield break;
+        }
+        rb.velocity = Vector2.zero;
+        particle.Play();
+        anim.Play("DisappearWeapon");
+        GetComponent<PolygonCollider2D>().enabled = false;
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
 }
 
