@@ -21,6 +21,8 @@ public class CollideCheck : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!collision.gameObject.CompareTag("Wall"))
+            return;
         var speed = lastVelocity.magnitude;
         Vector3 wallNormal = collision.contacts[0].normal;
         aura.direction = Vector3.Reflect(lastVelocity.normalized, wallNormal);

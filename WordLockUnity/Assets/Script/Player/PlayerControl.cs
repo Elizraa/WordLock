@@ -48,7 +48,7 @@ public class PlayerControl : MonoBehaviour
 
     public void UpdateMana(int mana)
     {
-        if((manaLeft - mana) > manaPlayer)
+        if ((manaLeft - mana) > manaPlayer) return;
         manaLeft -= mana;
         PlayerUI.playerUI.UpdateMana(manaLeft, manaPlayer);
     }
@@ -81,7 +81,7 @@ public class PlayerControl : MonoBehaviour
         //Ini cacad
         if (boss.name == "TuyulWarboss")
             boss.GetComponent<TuyulWarboss>().TakeDamage(damage);
-        //else if (boss.name == "TilanakQueen") ;
-        //Gitu dh
+        else if (boss.name == "TilanakQueen")
+            boss.GetComponent<TilanakQueen>().TakeDamage(damage);
     }
 }

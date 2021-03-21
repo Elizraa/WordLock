@@ -40,7 +40,8 @@ public class LevelManager : MonoBehaviour
 
     public void StartTalking(int index)
     {
-        LevelManager.levelManager.SetState(SceneState.Talking);
+        SetState(SceneState.Talking);
+        Debug.Log(sceneState);
         DialoguePhase[index].TriggerDialogue();
     }
 

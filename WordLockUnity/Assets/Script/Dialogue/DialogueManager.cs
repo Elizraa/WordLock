@@ -83,6 +83,8 @@ public class DialogueManager : MonoBehaviour
 		dialogueBegin = false;
 		animator.SetBool("IsOpen", false);
 		LevelManager.levelManager.SetState(nextState);
+
 	}
+	
 
 }

@@ -35,10 +35,10 @@ public class ScreenFader : MonoBehaviour
 
     IEnumerator LoadScene(int index)
     {
+        Time.timeScale = 1f;
         anim.Play("FadeIn");
         yield return new WaitForSecondsRealtime(1f);
         SceneManager.LoadScene(index);
-        Time.timeScale = 1f;
         anim.Play("FadeOut");
     }
 }
