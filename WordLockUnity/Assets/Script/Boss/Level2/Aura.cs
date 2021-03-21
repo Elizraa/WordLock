@@ -6,7 +6,6 @@ public class Aura : MonoBehaviour
 {
     public float moveSpeed, delayMove, damageWeapon, bulletLifetime = 5f;
     public Rigidbody2D rb;
-    public LayerMask bounceMask;
     public Vector3 direction;
     Collider2D col;
 
