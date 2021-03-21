@@ -11,6 +11,7 @@ public class BossUI : MonoBehaviour
 
     public Image fillMana;
     public Gradient gradientMana;
+    public Animator anim;
 
     private void Awake()
     {
@@ -40,7 +41,7 @@ public class BossUI : MonoBehaviour
     public void UpdateHealth(float currentHealth)
     {
         health.value = currentHealth;
-        //if 0 win
+        if (currentHealth <= 0) Win();
     }
 
     public void SetMaxMana(float maxEnergy)
@@ -54,5 +55,11 @@ public class BossUI : MonoBehaviour
     {
         currentMana.value = energy;
         fillMana.color = gradientMana.Evaluate(currentMana.normalizedValue);
+    }
+
+    void Win()
+    {
+        anim.Play("Kabur");
+        LevelManager.levelManager.StartTalking(1);
     }
 }

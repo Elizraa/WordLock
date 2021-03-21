@@ -30,7 +30,10 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            FlyingKeris();
+        }
     }
 
     public void TakeDamage(float damage)
@@ -58,16 +61,27 @@ public class PlayerControl : MonoBehaviour
 
     void FlyingKeris()
     {
-       
+
+        AttackBoss(Random.Range(damageFlyingKeris, damageFlyingKeris + 100));
     }
 
     void TouchOfFire()
     {
 
+        AttackBoss(Random.Range(damageFire, damageFire + 100));
     }
 
     void Komet()
     {
 
+        AttackBoss(Random.Range(damageKomet, damageKomet + 100));
+    }
+    void AttackBoss(float damage)
+    {
+        //Ini cacad
+        if (boss.name == "TuyulWarboss")
+            boss.GetComponent<TuyulWarboss>().TakeDamage(damage);
+        //else if (boss.name == "TilanakQueen") ;
+        //Gitu dh
     }
 }
