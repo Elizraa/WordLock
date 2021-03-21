@@ -9,6 +9,7 @@ public class ArenaGate : MonoBehaviour
     public Transform targetPosition;
     public float durationEnter;
     public int directionEnter;
+    public Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +34,7 @@ public class ArenaGate : MonoBehaviour
 
     void CloseArena()
     {
-
+        anim.Play("DoorClosed");
     }
 
 }

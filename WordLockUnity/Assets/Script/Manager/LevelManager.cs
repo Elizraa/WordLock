@@ -11,12 +11,13 @@ public class LevelManager : MonoBehaviour
     public DialogueTrigger[] DialoguePhase;
     public Animator animPlayer;
 
-    public GameObject pausePanel, fightPanel, inputBox;
+    public GameObject pausePanel, fightPanel, inputBox, gameOverPanel;
 
     private void Awake()
     {
         if (levelManager == null)
             levelManager = this;
+        gameOverPanel.SetActive(false);
         pausePanel.SetActive(false);
     }
 
@@ -28,7 +29,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameOverPanel.activeSelf)
         {
             if (Time.timeScale != 0)
                 Pause();
@@ -50,7 +51,7 @@ public class LevelManager : MonoBehaviour
             fightPanel.SetActive(true);
             inputBox.SetActive(false);
         }
-        else if(state == SceneState.SpellWrite)
+        else if (state == SceneState.SpellWrite)
         {
             inputBox.SetActive(true);
         }
@@ -75,8 +76,14 @@ public class LevelManager : MonoBehaviour
         ScreenFader.screenFader.ChangeScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void GoToMen()
+    public void GoToMenu()
     {
         ScreenFader.screenFader.ChangeScene(0);
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0f;
+        gameOverPanel.SetActive(true);
     }
 }

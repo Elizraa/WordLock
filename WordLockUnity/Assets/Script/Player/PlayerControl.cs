@@ -9,11 +9,14 @@ public class PlayerControl : MonoBehaviour
     public float health;
     public int manaPlayer;
     int manaLeft;
+    float maxHealth;
 
     [HideInInspector]
     public bool invul;
 
-    public GameObject boss;
+    public GameObject boss, keris;
+
+    public float damageFlyingKeris, damageFire, damageKomet;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +24,7 @@ public class PlayerControl : MonoBehaviour
         PlayerUI.playerUI.SetMaxHealth(health);
         PlayerUI.playerUI.SetMaxMana(manaPlayer);
         manaLeft = manaPlayer;
+        maxHealth = health;
     }
 
     // Update is called once per frame
@@ -35,18 +39,35 @@ public class PlayerControl : MonoBehaviour
             return;
         health -= damage;
         PlayerUI.playerUI.UpdateHealth(health);
+        if (health <= 0) LevelManager.levelManager.GameOver();
     }
 
-    public void TakeHealiing(float heal)
-    {
-        health += heal;
-        PlayerUI.playerUI.UpdateHealth(health);
-    }
 
     public void UpdateMana(int mana)
     {
         if((manaLeft - mana) > manaPlayer)
         manaLeft -= mana;
         PlayerUI.playerUI.UpdateMana(manaLeft, manaPlayer);
+    }
+    public void TakeHealiing(float heal)
+    {
+        health += heal;
+        if (health > maxHealth) health = maxHealth;
+        PlayerUI.playerUI.UpdateHealth(health);
+    }
+
+    void FlyingKeris()
+    {
+       
+    }
+
+    void TouchOfFire()
+    {
+
+    }
+
+    void Komet()
+    {
+
     }
 }
