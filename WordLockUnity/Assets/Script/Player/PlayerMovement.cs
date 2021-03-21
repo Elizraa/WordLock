@@ -56,6 +56,9 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButton("Jump") && currentEnergy >= dashEnergy)
                 Dash();
         }
+        else if(LevelManager.levelManager.sceneState == SceneState.SpellWrite)
+            anim.SetBool("Walking", false);
+
     }
 
     private void FixedUpdate()
