@@ -52,15 +52,15 @@ public class TuyulWarboss : MonoBehaviour
             {
                 case 0:
                     StartCoroutine(ArrowAttack());
-                    yield return new WaitForSeconds(delayAfterArrow - delayAdjustHealth - (attackCount == 1 ? -2 : 0));
+                    yield return new WaitForSeconds(delayAfterArrow - delayAdjustHealth - (attackCount == 1 ? 1 : 0));
                     break;
                 case 1:
                     KnifeAttack();
-                    yield return new WaitForSeconds(delayAfterKnife - delayAdjustHealth - (attackCount == 1 ? -2 : 0));
+                    yield return new WaitForSeconds(delayAfterKnife - delayAdjustHealth - (attackCount == 1 ? 1 : 0));
                     break;
                 case 2:
                     TuyulAttack();
-                    yield return new WaitForSeconds(delayAfterTuyul - delayAdjustHealth - (attackCount == 1 ? -2 : 0));
+                    yield return new WaitForSeconds(delayAfterTuyul - delayAdjustHealth - (attackCount == 1 ? 1 : 0));
                     break;
             }
             player.GetComponent<PlayerControl>().UpdateMana(-manaPlayerGet);
