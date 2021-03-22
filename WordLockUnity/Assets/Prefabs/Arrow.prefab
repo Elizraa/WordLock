@@ -239,6 +239,8 @@ MonoBehaviour:
   rb: {fileID: 108907708160927017}
   particle: {fileID: 5047645223553127254}
   anim: {fileID: 1830013604}
+  melayang: {fileID: 8300000, guid: e37eadef8e2277247aa5e1eb7d434dd8, type: 3}
+  nabrakTembok: {fileID: 8300000, guid: b9822199736a4e84a87577be7272d924, type: 3}
 --- !u!1001 &619054306
 PrefabInstance:
   m_ObjectHideFlags: 0

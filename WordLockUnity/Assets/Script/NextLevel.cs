@@ -12,7 +12,7 @@ public class NextLevel : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             ScreenFader.screenFader.ChangeScene(nextScene);
-            PlayerPrefs.SetInt(SceneManager.GetActiveScene().ToString(), 1);
+            PlayerPrefs.SetInt(SceneManager.GetActiveScene().name, 1);
         }
     }
 }

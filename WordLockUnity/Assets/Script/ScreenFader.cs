@@ -37,8 +37,10 @@ public class ScreenFader : MonoBehaviour
     {
         Time.timeScale = 1f;
         anim.Play("FadeIn");
+        SoundManager.soundManager.FadeOut();
         yield return new WaitForSecondsRealtime(1f);
         SceneManager.LoadScene(index);
         anim.Play("FadeOut");
+        SoundManager.soundManager.FadeIn();
     }
 }

@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour
 
     public GameObject pausePanel, fightPanel, inputBox, gameOverPanel;
 
+    public AudioClip levelBGM;
+
     private void Awake()
     {
         if (levelManager == null)
@@ -24,6 +26,7 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         SetState(SceneState.Normal);
+        SoundManager.soundManager.PlayBGM(levelBGM);
     }
 
     // Update is called once per frame
@@ -40,7 +43,7 @@ public class LevelManager : MonoBehaviour
 
     public void StartTalking(int index)
     {
-        SetState(SceneState.Talking);
+         SetState(SceneState.Talking);
         Debug.Log(sceneState);
         DialoguePhase[index].TriggerDialogue();
     }

@@ -11,6 +11,9 @@ public class Weapon : MonoBehaviour
     public Animator anim;
 
     int tuyulMiniWallCounter = 0;
+
+    public AudioClip melayang, nabrakTembok;
+
     void Start()
     {
         //FaceTarget();
@@ -18,22 +21,11 @@ public class Weapon : MonoBehaviour
         StartCoroutine(GoAttack());
     }
 
-    //void FaceTarget()
-    //{
-    //    Vector3 targ = target.position;
-    //    targ.z = 0f;
-
-    //    Vector3 objectPos = transform.position;
-    //    targ.x = targ.x - objectPos.x;
-    //    targ.y = targ.y - objectPos.y;
-
-    //    float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
-    //    transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
-    //}
-
     IEnumerator GoAttack()
     {
         yield return new WaitForSeconds(delayMove);
+        if(melayang != null)
+            SoundManager.soundManager.PlayAudio(melayang);
         rb.velocity = moveSpeed * transform.up;
     }
 
@@ -59,6 +51,9 @@ public class Weapon : MonoBehaviour
             Destroy(gameObject);
             yield break;
         }
+
+        SoundManager.soundManager.PlayAudio(nabrakTembok);
+
         rb.velocity = Vector2.zero;
         particle.Play();
         anim.Play("DisappearWeapon");
