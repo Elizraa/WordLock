@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class StoryTelling : MonoBehaviour
 {
-    public GameObject canvasStory;
-    public AudioSource mainMenu;
-    public AnimationClip story;
-
+    public Animator anim;
+    public GameObject infoPanel;
     private void Awake()
     {
         if (!PlayerPrefs.HasKey("FirstOpened"))
@@ -15,14 +13,12 @@ public class StoryTelling : MonoBehaviour
             PlayerPrefs.SetInt("FirstOpened", 1);
             StartStory();
         }
-        else
-            canvasStory.SetActive(false);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        infoPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -33,9 +29,7 @@ public class StoryTelling : MonoBehaviour
 
     void StartStory()
     {
-        mainMenu.Stop();
-        canvasStory.SetActive(true);
-        Invoke("StartBGM", story.length);
+        anim.Play("StoryTelling");
     }
 
     public void StartButton()
@@ -44,9 +38,14 @@ public class StoryTelling : MonoBehaviour
         PlayerPrefs.DeleteKey("FirstOpened");
     }
 
-    void StartBGM()
+    public void InfoButton()
     {
-        mainMenu.Play();
+        infoPanel.SetActive(true);
+    }
+
+    public void CloseInfoButton()
+    {
+        infoPanel.SetActive(false);
     }
 
 }

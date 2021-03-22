@@ -151,6 +151,10 @@ public class TuyulWarboss : MonoBehaviour
         healthBoss -= damage;
         BossUI.bossUI.UpdateHealth(healthBoss);
         Debug.Log("BossKenaDamage");
+    }
+
+    public void DoneTyping()
+    {
         regenerate = false;
     }
 

@@ -22,6 +22,8 @@ public class PlayerControl : MonoBehaviour
 
     public float damageFlyingKeris, damageFire, damageKomet;
 
+    public AudioClip healingSound, kerisMelayang, kerisKenaBoss, kometSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,10 +37,6 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            FlyingKeris();
-        }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             FlyingKeris();
@@ -50,6 +48,7 @@ public class PlayerControl : MonoBehaviour
         if (invul)
             return;
         health -= damage;
+        SoundManager.soundManager.PlayAudio(kerisKenaBoss);
         PlayerUI.playerUI.UpdateHealth(health);
         if (health <= 0) LevelManager.levelManager.GameOver();
     }
@@ -63,12 +62,15 @@ public class PlayerControl : MonoBehaviour
     }
     public void TakeHealiing(float heal)
     {
+        if (manaLeft < 8) return;
+        UpdateMana(8);
         health += heal;
         if (health > maxHealth) health = maxHealth;
         PlayerUI.playerUI.UpdateHealth(health);
+        SoundManager.soundManager.PlayAudio(healingSound);
     }
 
-    void FlyingKeris()
+    public void FlyingKeris()
     {
         StartCoroutine("KerisFly");
         
@@ -88,6 +90,7 @@ public class PlayerControl : MonoBehaviour
         }
         float rotWeapon = Mathf.Atan2(hitLand.y - keris.transform.position.y, hitLand.x - keris.transform.position.x) * Mathf.Rad2Deg - 90;
 
+        SoundManager.soundManager.PlayAudio(kerisMelayang);
         time = 0;
         while (time < 0.5f)
         {
@@ -101,6 +104,8 @@ public class PlayerControl : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+
+        SoundManager.soundManager.PlayAudio(kerisKenaBoss);
 
         rotWeapon = Mathf.Atan2(keris.transform.position.y - hitLand.y, keris.transform.position.x - hitLand.x) * Mathf.Rad2Deg - 90;
         AttackBoss(Random.Range(damageFlyingKeris, damageFlyingKeris + 100));
@@ -117,15 +122,18 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    void TouchOfFire()
+    public void TouchOfFire()
     {
-
+        if (manaLeft < 4) return;
+        UpdateMana(4);
         AttackBoss(Random.Range(damageFire, damageFire + 100));
     }
 
-    void Komet()
+    public void Komet()
     {
-
+        if (manaLeft < 10) return;
+        SoundManager.soundManager.PlayAudio(kometSound);
+        UpdateMana(10);
         AttackBoss(Random.Range(damageKomet, damageKomet + 100));
     }
     void AttackBoss(float damage)
