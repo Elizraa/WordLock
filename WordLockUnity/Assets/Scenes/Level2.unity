@@ -3350,7 +3350,7 @@ MonoBehaviour:
   - {fileID: 866666771}
   - {fileID: 1614335963}
   spellText:
-  - oh duhung wikara agen len alayang laksana angin
+  - oh duhung wikara agen len alayang laksana angan
   - oh duhung sung sira parista brata agni
   - oh duhung sung kita anuraksa len santosa
   - oh duhung tiba sira saha dhumaketuh
@@ -3562,7 +3562,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: '<color=silver>Flying Keris</color>
 
-    <size=65>oh duhung wikara agen
+    <size=65>oh duhung wikara angan
     len alayang laksana angin</size>
 
     <color=lightblue>MC : 0</color>
@@ -4080,7 +4080,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1171992644}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: GoToMenu
         m_Mode: 1
@@ -4212,7 +4212,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1171992644}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: Retry
         m_Mode: 1
@@ -4663,7 +4663,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1171992644}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: GoToMenu
         m_Mode: 1
@@ -5390,7 +5390,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1171992644}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
@@ -6490,7 +6490,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1171992644}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: Retry
         m_Mode: 1
