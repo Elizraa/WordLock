@@ -17,8 +17,10 @@ public class TilanakQueen : MonoBehaviour
     public float healthBoss, DFBDuration, attackPerRound, durationIdle;
     public float delayAfterAura, delayAfterDFB, delayAfterGaze, delayAdjustHealth;
     public Animator animBoss;
+    public LineRenderer lineSight;
 
     bool seePlayer;
+    Vector2 endPoint;
 
     [HideInInspector]
     public bool regenerate;
@@ -32,6 +34,9 @@ public class TilanakQueen : MonoBehaviour
         auraSpawn = GetComponentsInChildren<Transform>();
         BossUI.bossUI.SetMaxHealth(healthBoss);
         BossUI.bossUI.SetMaxMana(durationIdle);
+        lineSight.positionCount = 2;
+        lineSight.SetPosition(0, transform.position);
+        lineSight.SetPosition(1, transform.position);
     }
 
     // Update is called once per frame
@@ -124,6 +129,8 @@ public class TilanakQueen : MonoBehaviour
         
         float timeGazed = 0;
         Debug.Log("Dazing");
+        lineSight.positionCount = 3;
+        lineSight.SetPosition(2, endPoint);
 
         for (float f = 5f; f >= -0.05f; f -= 0.05f)
         {
@@ -136,11 +143,13 @@ public class TilanakQueen : MonoBehaviour
             {
                 player.gameObject.GetComponent<PlayerControl>().health = 0; ;
             }
-
-            Debug.Log("Daze for : " + timeGazed);
+            lineSight.SetPosition(2, endPoint);
+            Debug.Log(endPoint);
+            //Debug.Log("Daze for : " + timeGazed);
             yield return new WaitForSeconds(0.05f);
         }
-        
+        lineSight.positionCount = 2;
+        //lineSight.SetPosition(1, transform.position);
     }
 
     bool CanSeePlayer()
@@ -149,6 +158,7 @@ public class TilanakQueen : MonoBehaviour
 
         if (hit.collider != null)
         {
+            endPoint = hit.point;
             if (hit.collider.gameObject.CompareTag("Player"))
             {
                 return true;

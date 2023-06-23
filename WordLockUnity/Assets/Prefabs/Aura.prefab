@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: -4481990958013009045}
   m_Layer: 0
   m_Name: Aura
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,9 +181,6 @@ MonoBehaviour:
   damageWeapon: 1
   bulletLifetime: 5
   rb: {fileID: -1337087477383383941}
-  bounceMask:
-    serializedVersion: 2
-    m_Bits: 256
   direction: {x: 0, y: 0, z: 0}
 --- !u!50 &-1337087477383383941
 Rigidbody2D:
